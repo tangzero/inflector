@@ -93,29 +93,33 @@ var SingularToPlural = map[string]string{
 }
 
 func TestPluralize(t *testing.T) {
+	inflector.ClearCache()
+	inflector.ShouldCache = false
+	for singular, plural := range SingularToPlural {
+		assert.Equal(t, plural, inflector.Pluralize(singular))
+	}
+}
+
+func TestCachedPluralize(t *testing.T) {
+	inflector.ClearCache()
+	inflector.ShouldCache = true
 	for singular, plural := range SingularToPlural {
 		assert.Equal(t, plural, inflector.Pluralize(singular))
 	}
 }
 
 func TestSingularize(t *testing.T) {
+	inflector.ClearCache()
+	inflector.ShouldCache = false
 	for singular, plural := range SingularToPlural {
 		assert.Equal(t, singular, inflector.Singularize(plural))
 	}
 }
 
-func BenchmarkPluralize(b *testing.B) {
-	for n := 0; n < b.N; n++ {
-		for singular := range SingularToPlural {
-			inflector.Pluralize(singular)
-		}
-	}
-}
-
-func BenchmarkSingularize(b *testing.B) {
-	for n := 0; n < b.N; n++ {
-		for _, plural := range SingularToPlural {
-			inflector.Singularize(plural)
-		}
+func TestCachedSingularize(t *testing.T) {
+	inflector.ClearCache()
+	inflector.ShouldCache = true
+	for singular, plural := range SingularToPlural {
+		assert.Equal(t, singular, inflector.Singularize(plural))
 	}
 }

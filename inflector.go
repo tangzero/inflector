@@ -16,6 +16,9 @@ var (
 	singulars      rules
 	pluralsCache   = cache{}
 	singularsCache = cache{}
+
+	// ShouldCache flag if the inflector should (or not) cache the inflections
+	ShouldCache = false
 )
 
 type cache map[string]string
@@ -89,10 +92,21 @@ func uncountable(words ...string) {
 
 // Pluralize ...
 func Pluralize(singular string) string {
-	return pluralsCache.get(singular, plurals)
+	if ShouldCache {
+		return pluralsCache.get(singular, plurals)
+	}
+	return plurals.convert(singular)
 }
 
 // Singularize ...
 func Singularize(plural string) string {
-	return singularsCache.get(plural, singulars)
+	if ShouldCache {
+		return singularsCache.get(plural, singulars)
+	}
+	return singulars.convert(plural)
+}
+
+func ClearCache() {
+	singularsCache = cache{}
+	pluralsCache = cache{}
 }
