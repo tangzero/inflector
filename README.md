@@ -1,1 +1,2 @@
-# inflector [![Build Status](https://travis-ci.org/tangzero/inflector.svg?branch=master)](https://travis-ci.org/tangzero/inflector)
+# inflector 
+[![Build Status](https://travis-ci.org/tangzero/inflector.svg?branch=master)](https://travis-ci.org/tangzero/inflector) [![GoDoc](https://godoc.org/tangzero/inflector?status.svg)](https://godoc.org/github.com/tangzero/inflector) [![Coverage Status](https://coveralls.io/repos/github/tangzero/inflector/badge.svg?branch=master)](https://coveralls.io/github/tangzero/inflector?branch=master) [![Go Report Card](https://goreportcard.com/badge/github.com/tangzero/inflector)](https://goreportcard.com/report/github.com/tangzero/inflector)

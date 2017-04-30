@@ -106,6 +106,7 @@ func Singularize(plural string) string {
 	return singulars.convert(plural)
 }
 
+// ClearCache ...
 func ClearCache() {
 	singularsCache = cache{}
 	pluralsCache = cache{}
