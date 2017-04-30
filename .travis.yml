@@ -1,6 +1,11 @@
 language: go
 
 go:
+  - 1.3.x
+  - 1.4.x
+  - 1.5.x
+  - 1.6.x
+  - 1.7.x
   - 1.8.x
   - master
 
@@ -8,4 +13,4 @@ before_install:
   - go get github.com/mattn/goveralls
 
 script:
-  - $HOME/gopath/bin/goveralls -repotoken 81wktg1Q99IJp6HqgSMecoi4JZTeYF6ZI -v
+  - goveralls -repotoken 81wktg1Q99IJp6HqgSMecoi4JZTeYF6ZI -v
