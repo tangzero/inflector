@@ -11,15 +11,30 @@ const (
 )
 
 var (
-	uncountables   words
-	plurals        rules
-	singulars      rules
+	uncountables words
+	plurals      rules
+	singulars    rules
+)
+
+var (
 	pluralsCache   = cache{}
 	singularsCache = cache{}
-
-	// ShouldCache flag if the inflector should (or not) cache the inflections
-	ShouldCache = false
 )
+
+var (
+	camelizeRegex      = regexp.MustCompile(`(?:^|[_-])(.)`)
+	underscorizeRegex1 = regexp.MustCompile(`([A-Z]+)([A-Z][a-z])`)
+	underscorizeRegex2 = regexp.MustCompile(`([a-z\d])([A-Z])`)
+)
+
+// ShouldCache set if the inflector should (or not) cache the inflections
+var ShouldCache = false
+
+// ClearCache clear the inflection cache. Both for singulars and plurals.
+func ClearCache() {
+	singularsCache = cache{}
+	pluralsCache = cache{}
+}
 
 type cache map[string]string
 
@@ -62,11 +77,11 @@ type rule struct {
 	same        bool
 }
 
-func (r rule) apply(text string) (string, bool) {
-	if r.regex.MatchString(text) {
-		return r.regex.ReplaceAllString(text, r.replacement), true
+func (r rule) apply(term string) (string, bool) {
+	if r.regex.MatchString(term) {
+		return r.regex.ReplaceAllString(term, r.replacement), true
 	}
-	return text, false
+	return term, false
 }
 
 func plural(regex, replacement string) {
@@ -79,18 +94,18 @@ func singular(regex, replacement string) {
 	singulars = append(rules{r}, singulars...)
 }
 
-func irregular(sing, plu string) {
-	plural(regexp.QuoteMeta(sing), plu)
-	plural(regexp.QuoteMeta(plu), plu)
-	singular(regexp.QuoteMeta(sing), sing)
-	singular(regexp.QuoteMeta(plu), sing)
+func irregular(s, p string) {
+	plural(regexp.QuoteMeta(s), p)
+	plural(regexp.QuoteMeta(p), p)
+	singular(regexp.QuoteMeta(s), s)
+	singular(regexp.QuoteMeta(p), s)
 }
 
 func uncountable(words ...string) {
 	uncountables = append(uncountables, words...)
 }
 
-// Pluralize ...
+// Pluralize returns the plural form of the word in the string.
 func Pluralize(singular string) string {
 	if ShouldCache {
 		return pluralsCache.get(singular, plurals)
@@ -98,7 +113,7 @@ func Pluralize(singular string) string {
 	return plurals.convert(singular)
 }
 
-// Singularize ...
+// Singularize returns the singular form of a word in a string.
 func Singularize(plural string) string {
 	if ShouldCache {
 		return singularsCache.get(plural, singulars)
@@ -106,8 +121,18 @@ func Singularize(plural string) string {
 	return singulars.convert(plural)
 }
 
-// ClearCache ...
-func ClearCache() {
-	singularsCache = cache{}
-	pluralsCache = cache{}
+// Camelize converts strings to UpperCamelCase.
+func Camelize(term string) string {
+	return camelizeRegex.ReplaceAllStringFunc(term, func(match string) string {
+		return strings.Title(strings.Replace(strings.Replace(match, "-", "", 1), "_", "", 1))
+	})
+}
+
+// Underscorize converts strings to underscored, lowercase form.
+func Underscorize(term string) string {
+	replacement := "${1}_${2}"
+	term = underscorizeRegex1.ReplaceAllString(term, replacement)
+	term = underscorizeRegex2.ReplaceAllString(term, replacement)
+	term = strings.Replace(term, "-", "_", -1)
+	return strings.ToLower(term)
 }

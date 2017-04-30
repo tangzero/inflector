@@ -57,7 +57,7 @@ func init() {
 	irregular("sex", "sexes")
 	irregular("move", "moves")
 	irregular("zombie", "zombies")
-	irregular("zombie", "zombies")
+	irregular("mombie", "mombies")
 
 	uncountable("equipment", "information", "rice", "money", "species", "series", "fish", "sheep", "jeans", "police")
 }

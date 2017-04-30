@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/tangzero/inflector"
 )
 
@@ -92,6 +93,13 @@ var SingularToPlural = map[string]string{
 	"database":    "databases",
 }
 
+var CamelToUnderscore = map[string]string{
+	"Product":               "product",
+	"SpecialGuest":          "special_guest",
+	"ApplicationController": "application_controller",
+	"Area51Controller":      "area51_controller",
+}
+
 func TestPluralize(t *testing.T) {
 	inflector.ClearCache()
 	inflector.ShouldCache = false
@@ -121,5 +129,17 @@ func TestCachedSingularize(t *testing.T) {
 	inflector.ShouldCache = true
 	for singular, plural := range SingularToPlural {
 		assert.Equal(t, singular, inflector.Singularize(plural))
+	}
+}
+
+func TestCamelize(t *testing.T) {
+	for camel, underscore := range CamelToUnderscore {
+		require.Equal(t, camel, inflector.Camelize(underscore))
+	}
+}
+
+func TestUnderscorize(t *testing.T) {
+	for camel, underscore := range CamelToUnderscore {
+		require.Equal(t, underscore, inflector.Underscorize(camel))
 	}
 }
