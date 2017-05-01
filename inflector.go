@@ -142,7 +142,12 @@ func Dasherize(term string) string {
 	return strings.Replace(Underscorize(term), "_", "-", -1)
 }
 
-// Tableize creates the name of a ORM table.
+// Tableize creates the name of a table for an ORM model.
 func Tableize(term string) string {
 	return Pluralize(Underscorize(term))
+}
+
+// ForeignKey creates a foreign key name from an ORM model name.
+func ForeignKey(term string) string {
+	return Underscorize(term) + "_id"
 }

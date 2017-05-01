@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"github.com/tangzero/inflector"
 )
 
@@ -113,6 +112,12 @@ var ToTables = map[string]string{
 	"user-account": "user_accounts",
 	"specialOrder": "special_orders",
 }
+var ToForeignKey = map[string]string{
+	"Product":      "product_id",
+	"AdminUser":    "admin_user_id",
+	"user-account": "user_account_id",
+	"specialOrder": "special_order_id",
+}
 
 func TestPluralize(t *testing.T) {
 	inflector.ClearCache()
@@ -148,24 +153,29 @@ func TestCachedSingularize(t *testing.T) {
 
 func TestCamelize(t *testing.T) {
 	for camel, underscore := range CamelToUnderscore {
-		require.Equal(t, camel, inflector.Camelize(underscore))
+		assert.Equal(t, camel, inflector.Camelize(underscore))
 	}
 }
 
 func TestUnderscorize(t *testing.T) {
 	for camel, underscore := range CamelToUnderscore {
-		require.Equal(t, underscore, inflector.Underscorize(camel))
+		assert.Equal(t, underscore, inflector.Underscorize(camel))
 	}
 }
 
 func TestDasherize(t *testing.T) {
 	for camel, dash := range CamelToDashes {
-		require.Equal(t, dash, inflector.Dasherize(camel))
+		assert.Equal(t, dash, inflector.Dasherize(camel))
 	}
 }
 
 func TestTableize(t *testing.T) {
-	for name, table := range ToTables {
-		require.Equal(t, table, inflector.Tableize(name))
+	for term, table := range ToTables {
+		assert.Equal(t, table, inflector.Tableize(term))
+	}
+}
+func TestForeignKey(t *testing.T) {
+	for term, key := range ToForeignKey {
+		assert.Equal(t, key, inflector.ForeignKey(term))
 	}
 }

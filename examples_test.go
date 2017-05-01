@@ -67,3 +67,11 @@ func ExampleTableize() {
 	// ham_and_eggs
 	// fancy_categories
 }
+
+func ExampleForeignKey() {
+	fmt.Println(inflector.ForeignKey("Message"))
+	fmt.Println(inflector.ForeignKey("AdminPost"))
+	// Output:
+	// message_id
+	// admin_post_id
+}
