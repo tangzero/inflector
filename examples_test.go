@@ -75,3 +75,39 @@ func ExampleForeignKey() {
 	// message_id
 	// admin_post_id
 }
+
+func ExampleOrdinal() {
+	fmt.Println(inflector.Ordinal(1))
+	fmt.Println(inflector.Ordinal(2))
+	fmt.Println(inflector.Ordinal(14))
+	fmt.Println(inflector.Ordinal(1002))
+	fmt.Println(inflector.Ordinal(1003))
+	fmt.Println(inflector.Ordinal(-11))
+	fmt.Println(inflector.Ordinal(-1021))
+	// Output:
+	// st
+	// nd
+	// th
+	// nd
+	// rd
+	// th
+	// st
+}
+
+func ExampleOrdinalize() {
+	fmt.Println(inflector.Ordinalize(1))
+	fmt.Println(inflector.Ordinalize(2))
+	fmt.Println(inflector.Ordinalize(14))
+	fmt.Println(inflector.Ordinalize(1002))
+	fmt.Println(inflector.Ordinalize(1003))
+	fmt.Println(inflector.Ordinalize(-11))
+	fmt.Println(inflector.Ordinalize(-1021))
+	// Output:
+	// 1st
+	// 2nd
+	// 14th
+	// 1002nd
+	// 1003rd
+	// -11th
+	// -1021st
+}

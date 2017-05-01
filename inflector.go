@@ -1,6 +1,8 @@
 package inflector
 
 import (
+	"fmt"
+	"math"
 	"regexp"
 	"strings"
 )
@@ -150,4 +152,31 @@ func Tableize(term string) string {
 // ForeignKey creates a foreign key name from an ORM model name.
 func ForeignKey(term string) string {
 	return Underscorize(term) + "_id"
+}
+
+// Ordinal returns the suffix that should be added to a number to denote the position
+// in an ordered sequence such as 1st, 2nd, 3rd, 4th.
+func Ordinal(number int64) string {
+	number = int64(math.Abs(float64(number)))
+	switch number % 100 {
+	case 11, 12, 13:
+		return "th"
+	default:
+		switch number % 10 {
+		case 1:
+			return "st"
+		case 2:
+			return "nd"
+		case 3:
+			return "rd"
+		default:
+			return "th"
+		}
+	}
+}
+
+// Ordinalize turns a number into an ordinal string used to denote the position in an
+// ordered sequence such as 1st, 2nd, 3rd, 4th.
+func Ordinalize(number int64) string {
+	return fmt.Sprintf("%d%s", number, Ordinal(number))
 }
