@@ -92,33 +92,6 @@ var SingularToPlural = map[string]string{
 	"database":    "databases",
 }
 
-var CamelToUnderscore = map[string]string{
-	"Product":               "product",
-	"SpecialGuest":          "special_guest",
-	"ApplicationController": "application_controller",
-	"Area51Controller":      "area51_controller",
-}
-
-var CamelToDashes = map[string]string{
-	"Product":               "product",
-	"SpecialGuest":          "special-guest",
-	"ApplicationController": "application-controller",
-	"Area51Controller":      "area51-controller",
-}
-
-var ToTables = map[string]string{
-	"Product":      "products",
-	"AdminUser":    "admin_users",
-	"user-account": "user_accounts",
-	"specialOrder": "special_orders",
-}
-var ToForeignKey = map[string]string{
-	"Product":      "product_id",
-	"AdminUser":    "admin_user_id",
-	"user-account": "user_account_id",
-	"specialOrder": "special_order_id",
-}
-
 func TestPluralize(t *testing.T) {
 	inflector.ClearCache()
 	inflector.ShouldCache = false
@@ -148,35 +121,5 @@ func TestCachedSingularize(t *testing.T) {
 	inflector.ShouldCache = true
 	for singular, plural := range SingularToPlural {
 		assert.Equal(t, singular, inflector.Singularize(plural))
-	}
-}
-
-func TestCamelize(t *testing.T) {
-	for camel, underscore := range CamelToUnderscore {
-		assert.Equal(t, camel, inflector.Camelize(underscore))
-	}
-}
-
-func TestUnderscorize(t *testing.T) {
-	for camel, underscore := range CamelToUnderscore {
-		assert.Equal(t, underscore, inflector.Underscorize(camel))
-	}
-}
-
-func TestDasherize(t *testing.T) {
-	for camel, dash := range CamelToDashes {
-		assert.Equal(t, dash, inflector.Dasherize(camel))
-	}
-}
-
-func TestTableize(t *testing.T) {
-	for term, table := range ToTables {
-		assert.Equal(t, table, inflector.Tableize(term))
-	}
-}
-
-func TestForeignKey(t *testing.T) {
-	for term, key := range ToForeignKey {
-		assert.Equal(t, key, inflector.ForeignKey(term))
 	}
 }
