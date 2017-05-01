@@ -49,3 +49,11 @@ func ExampleUnderscorize() {
 	// my_account
 	// user_profile
 }
+
+func ExampleDasherize() {
+	fmt.Println(inflector.Dasherize("MyAccount"))
+	fmt.Println(inflector.Dasherize("user_profile"))
+	// Output:
+	// my-account
+	// user-profile
+}

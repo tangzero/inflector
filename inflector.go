@@ -22,9 +22,9 @@ var (
 )
 
 var (
-	camelizeRegex      = regexp.MustCompile(`(?:^|[_-])(.)`)
-	underscorizeRegex1 = regexp.MustCompile(`([A-Z]+)([A-Z][a-z])`)
-	underscorizeRegex2 = regexp.MustCompile(`([a-z\d])([A-Z])`)
+	camelizeRegex   = regexp.MustCompile(`(?:^|[_-])(.)`)
+	upperWordsRegex = regexp.MustCompile(`([A-Z]+)([A-Z][a-z])`)
+	lowerWordsRegex = regexp.MustCompile(`([a-z\d])([A-Z])`)
 )
 
 // ShouldCache set if the inflector should (or not) cache the inflections
@@ -131,8 +131,13 @@ func Camelize(term string) string {
 // Underscorize converts strings to underscored, lowercase form.
 func Underscorize(term string) string {
 	replacement := "${1}_${2}"
-	term = underscorizeRegex1.ReplaceAllString(term, replacement)
-	term = underscorizeRegex2.ReplaceAllString(term, replacement)
+	term = upperWordsRegex.ReplaceAllString(term, replacement)
+	term = lowerWordsRegex.ReplaceAllString(term, replacement)
 	term = strings.Replace(term, "-", "_", -1)
 	return strings.ToLower(term)
+}
+
+// Dasherize converts strings to dashed, lowercase form.
+func Dasherize(term string) string {
+	return strings.Replace(Underscorize(term), "_", "-", -1)
 }
