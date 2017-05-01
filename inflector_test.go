@@ -174,6 +174,7 @@ func TestTableize(t *testing.T) {
 		assert.Equal(t, table, inflector.Tableize(term))
 	}
 }
+
 func TestForeignKey(t *testing.T) {
 	for term, key := range ToForeignKey {
 		assert.Equal(t, key, inflector.ForeignKey(term))
