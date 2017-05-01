@@ -57,3 +57,13 @@ func ExampleDasherize() {
 	// my-account
 	// user-profile
 }
+
+func ExampleTableize() {
+	fmt.Println(inflector.Tableize("RawScaledScorer"))
+	fmt.Println(inflector.Tableize("ham_and_egg"))
+	fmt.Println(inflector.Tableize("fancyCategory"))
+	// Output:
+	// raw_scaled_scorers
+	// ham_and_eggs
+	// fancy_categories
+}

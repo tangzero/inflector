@@ -107,6 +107,13 @@ var CamelToDashes = map[string]string{
 	"Area51Controller":      "area51-controller",
 }
 
+var ToTables = map[string]string{
+	"Product":      "products",
+	"AdminUser":    "admin_users",
+	"user-account": "user_accounts",
+	"specialOrder": "special_orders",
+}
+
 func TestPluralize(t *testing.T) {
 	inflector.ClearCache()
 	inflector.ShouldCache = false
@@ -154,5 +161,11 @@ func TestUnderscorize(t *testing.T) {
 func TestDasherize(t *testing.T) {
 	for camel, dash := range CamelToDashes {
 		require.Equal(t, dash, inflector.Dasherize(camel))
+	}
+}
+
+func TestTableize(t *testing.T) {
+	for name, table := range ToTables {
+		require.Equal(t, table, inflector.Tableize(name))
 	}
 }

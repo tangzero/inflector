@@ -141,3 +141,8 @@ func Underscorize(term string) string {
 func Dasherize(term string) string {
 	return strings.Replace(Underscorize(term), "_", "-", -1)
 }
+
+// Tableize creates the name of a ORM table.
+func Tableize(term string) string {
+	return Pluralize(Underscorize(term))
+}
