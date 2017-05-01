@@ -24,9 +24,14 @@ var (
 )
 
 var (
-	camelizeRegex   = regexp.MustCompile(`(?:^|[_-])(.)`)
+	camelizeRegex   = regexp.MustCompile(`(?:^|[_-])([^_-]*)`)
 	upperWordsRegex = regexp.MustCompile(`([A-Z]+)([A-Z][a-z])`)
 	lowerWordsRegex = regexp.MustCompile(`([a-z\d])([A-Z])`)
+)
+
+var (
+	acronyms     = data{}
+	acronymRegex *regexp.Regexp
 )
 
 // ShouldCache set if the inflector should (or not) cache the inflections
@@ -86,6 +91,16 @@ func (r rule) apply(term string) (string, bool) {
 	return term, false
 }
 
+type data map[string]string
+
+func (d data) Values() []string {
+	values := make([]string, 0, len(d))
+	for _, value := range d {
+		values = append(values, value)
+	}
+	return values
+}
+
 func plural(regex, replacement string) {
 	r := rule{regex: regexp.MustCompile(regexFlags + regex + regexEnd), replacement: replacement}
 	plurals = append(rules{r}, plurals...)
@@ -107,6 +122,11 @@ func uncountable(words ...string) {
 	uncountables = append(uncountables, words...)
 }
 
+func acronym(word string) {
+	acronyms[strings.ToLower(word)] = word
+	acronymRegex = regexp.MustCompile(strings.Join(acronyms.Values(), "|"))
+}
+
 // Pluralize returns the plural form of the word in the string.
 func Pluralize(singular string) string {
 	if ShouldCache {
@@ -126,12 +146,22 @@ func Singularize(plural string) string {
 // Camelize converts strings to UpperCamelCase.
 func Camelize(term string) string {
 	return camelizeRegex.ReplaceAllStringFunc(term, func(match string) string {
-		return strings.Title(strings.Replace(strings.Replace(match, "-", "", 1), "_", "", 1))
+		match = strings.Replace(strings.Replace(match, "-", "", 1), "_", "", 1)
+		if acronym, ok := acronyms[match]; ok {
+			return acronym
+		}
+		return strings.Title(match)
 	})
 }
 
 // Underscorize converts strings to underscored, lowercase form.
 func Underscorize(term string) string {
+	term = acronymRegex.ReplaceAllStringFunc(term, func(match string) string {
+		return "_" + strings.ToLower(match)
+	})
+	if strings.HasPrefix(term, "_") {
+		term = term[1:]
+	}
 	replacement := "${1}_${2}"
 	term = upperWordsRegex.ReplaceAllString(term, replacement)
 	term = lowerWordsRegex.ReplaceAllString(term, replacement)

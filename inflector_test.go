@@ -123,3 +123,8 @@ func TestCachedSingularize(t *testing.T) {
 		assert.Equal(t, singular, inflector.Singularize(plural))
 	}
 }
+
+func TestMultipleAcronymInflections(t *testing.T) {
+	term := "SSLError"
+	assert.Equal(t, term, inflector.Camelize(inflector.Underscorize(term)))
+}

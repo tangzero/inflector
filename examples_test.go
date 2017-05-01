@@ -37,17 +37,33 @@ func ExampleSingularize() {
 func ExampleCamelize() {
 	fmt.Println(inflector.Camelize("my_account"))
 	fmt.Println(inflector.Camelize("user-profile"))
+	fmt.Println(inflector.Camelize("ssl_error"))
+	fmt.Println(inflector.Camelize("http_connection_timeout"))
+	fmt.Println(inflector.Camelize("restful_controller"))
+	fmt.Println(inflector.Camelize("multiple_http_calls"))
 	// Output:
 	// MyAccount
 	// UserProfile
+	// SSLError
+	// HTTPConnectionTimeout
+	// RESTfulController
+	// MultipleHTTPCalls
 }
 
 func ExampleUnderscorize() {
 	fmt.Println(inflector.Underscorize("MyAccount"))
 	fmt.Println(inflector.Underscorize("user-profile"))
+	fmt.Println(inflector.Underscorize("SSLError"))
+	fmt.Println(inflector.Underscorize("HTTPConnectionTimeout"))
+	fmt.Println(inflector.Underscorize("RESTfulController"))
+	fmt.Println(inflector.Underscorize("MultipleHTTPCalls"))
 	// Output:
 	// my_account
 	// user_profile
+	// ssl_error
+	// http_connection_timeout
+	// restful_controller
+	// multiple_http_calls
 }
 
 func ExampleDasherize() {

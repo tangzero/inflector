@@ -59,5 +59,19 @@ func init() {
 	irregular("zombie", "zombies")
 	irregular("mombie", "mombies")
 
+	acronym("HTTP")
+	acronym("HTTPS")
+	acronym("SSL")
+	acronym("URL")
+	acronym("URLs")
+	acronym("API")
+	acronym("APIs")
+	acronym("REST")
+	acronym("RESTful")
+	acronym("USB")
+	acronym("WWW")
+	acronym("TCP")
+	acronym("UDP")
+
 	uncountable("equipment", "information", "rice", "money", "species", "series", "fish", "sheep", "jeans", "police")
 }
