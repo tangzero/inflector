@@ -1,0 +1,19 @@
+kind: pipeline
+name: default
+
+steps:
+- name: test
+  image: golang
+  commands:
+  - go get github.com/stretchr/testify/assert
+  - go test ./...
+
+trigger:
+  branch:
+  - drone
+  event:
+  - push
+  - pull_request
+  - tag
+
+  
